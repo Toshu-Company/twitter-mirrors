@@ -3,7 +3,7 @@ import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Language, TwidougaNetService } from '@twitter/twidouga.net';
 
 @Controller('twidouga')
-@ApiTags('twidouga.net')
+@ApiTags('twidouga.net', 'deprecated')
 export class TwidougaController {
   constructor(private readonly twidougaService: TwidougaNetService) {}
 
