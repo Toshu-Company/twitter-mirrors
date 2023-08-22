@@ -58,9 +58,15 @@ export class TwidougaNetService {
 
     const [videos, date] = await this.parseTwidougaPage(page);
 
+    const screenshot = await page.screenshot({
+      type: 'jpeg',
+      quality: 50,
+      encoding: 'base64',
+    });
+
     await page.close();
 
-    return { videos, date };
+    return { videos, date, screenshot };
   }
 
   private async autoScroll(page: Page) {
