@@ -6,6 +6,7 @@ import {
 } from 'puppeteer';
 import puppeteer from 'puppeteer-extra';
 import AdblockerPlugin from 'puppeteer-extra-plugin-adblocker';
+import useProxy from 'puppeteer-page-proxy';
 
 export enum Language {
   Korean = 'ko',
@@ -32,7 +33,10 @@ export class TwidougaNetService {
           useCache: true,
         }),
       )
-      .launch({ headless: 'new' })
+      .launch({
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        headless: 'new',
+      })
       .then((browser) => {
         this.browser = browser;
       });
@@ -42,6 +46,8 @@ export class TwidougaNetService {
     if (this.browser === undefined) throw new Error('Browser is not ready');
 
     const page = await this.browser.newPage();
+
+    await useProxy(page, 'socks5h://warproxy:1080');
 
     await page.goto(
       {
