@@ -37,7 +37,7 @@ export class TwidougaNetService {
       )
       .launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        headless: 'new',
+        headless: false,
       })
       .then((browser) => {
         this.browser = browser;
@@ -70,7 +70,7 @@ export class TwidougaNetService {
 
     // await page.close();
 
-    return await page.content();
+    return screenshot;
     // return { videos, date, screenshot };
   }
 
