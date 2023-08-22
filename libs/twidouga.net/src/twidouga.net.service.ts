@@ -36,11 +36,7 @@ export class TwidougaNetService {
         }),
       )
       .launch({
-        args: [
-          '--no-sandbox',
-          '--disable-setuid-sandbox',
-          '--proxy-server=socks5h://warproxy:1080',
-        ],
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
         headless: 'new',
       })
       .then((browser) => {
@@ -57,7 +53,7 @@ export class TwidougaNetService {
       'Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20100101 Firefox/5.0',
     );
 
-    // await useProxy(page, 'socks5h://warproxy:1080');
+    await useProxy(page, 'socks5h://warproxy:1080');
 
     // await page.goto(
     //   {
