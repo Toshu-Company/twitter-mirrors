@@ -9,8 +9,6 @@ import AdblockerPlugin from 'puppeteer-extra-plugin-adblocker';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import useProxy from 'puppeteer-page-proxy';
 
-puppeteer.use(StealthPlugin());
-
 export enum Language {
   Korean = 'ko',
   Japanese = 'ja',
@@ -29,6 +27,14 @@ export class TwidougaNetService {
   constructor() {
     puppeteer
       .use(StealthPlugin())
+      .use(
+        AdblockerPlugin({
+          interceptResolutionPriority: DEFAULT_INTERCEPT_RESOLUTION_PRIORITY,
+          blockTrackers: true,
+          blockTrackersAndAnnoyances: true,
+          useCache: true,
+        }),
+      )
       .launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
         headless: 'new',
@@ -42,6 +48,10 @@ export class TwidougaNetService {
     if (this.browser === undefined) throw new Error('Browser is not ready');
 
     const page = await this.browser.newPage();
+
+    await page.setUserAgent(
+      'Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20100101 Firefox/5.0',
+    );
 
     await useProxy(page, 'socks5h://warproxy:1080');
 
