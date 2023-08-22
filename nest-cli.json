@@ -54,6 +54,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/axios/tsconfig.lib.json"
       }
+    },
+    "twidouga.net": {
+      "type": "library",
+      "root": "libs/twidouga.net",
+      "entryFile": "index",
+      "sourceRoot": "libs/twidouga.net/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/twidouga.net/tsconfig.lib.json"
+      }
     }
   }
 }

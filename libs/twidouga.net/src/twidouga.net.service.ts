@@ -1,0 +1,118 @@
+import { Injectable } from '@nestjs/common';
+import {
+  Browser,
+  DEFAULT_INTERCEPT_RESOLUTION_PRIORITY,
+  Page,
+} from 'puppeteer';
+import puppeteer from 'puppeteer-extra';
+import AdblockerPlugin from 'puppeteer-extra-plugin-adblocker';
+
+export enum Language {
+  Korean = 'ko',
+  Japanese = 'ja',
+}
+
+export interface Video {
+  index: number;
+  videoThumbnail: string;
+  videoUrl: string;
+}
+
+@Injectable()
+export class TwidougaNetService {
+  private browser?: Browser;
+
+  constructor() {
+    puppeteer
+      .use(
+        AdblockerPlugin({
+          interceptResolutionPriority: DEFAULT_INTERCEPT_RESOLUTION_PRIORITY,
+          blockTrackers: true,
+          blockTrackersAndAnnoyances: true,
+          useCache: true,
+        }),
+      )
+      .launch({ headless: 'new' })
+      .then((browser) => {
+        this.browser = browser;
+      });
+  }
+
+  async getLive(language: Language) {
+    if (this.browser === undefined) throw new Error('Browser is not ready');
+
+    const page = await this.browser.newPage();
+
+    await page.goto(
+      {
+        ko: 'https://www.twidouga.net/ko/realtime_t.php',
+        ja: 'https://www.twidouga.net/realtime_t.php',
+      }[language],
+    );
+
+    const [videos, date] = await this.parseTwidougaPage(page);
+
+    await page.close();
+
+    return { videos, date };
+  }
+
+  private async autoScroll(page: Page) {
+    await page.evaluate(async () => {
+      await new Promise<void>((resolve) => {
+        let totalHeight = 0;
+        const distance = 100;
+        let count = 0;
+        const timer = setInterval(() => {
+          const scrollHeight = document.body.scrollHeight;
+          window.scrollBy(0, distance);
+          totalHeight += distance;
+
+          if (totalHeight >= scrollHeight - window.innerHeight) {
+            count++;
+            if (count >= 50) {
+              clearInterval(timer);
+              resolve();
+            }
+          } else {
+            count = 0;
+          }
+        }, 100);
+      });
+    });
+  }
+
+  private async parseTwidougaPage(page: Page): Promise<[Video[], Date]> {
+    const date = new Date();
+
+    await this.autoScroll(page);
+
+    const videoList = await page.$$('div#container > div.item:not(#pakuri)');
+
+    const videos = await Promise.all(
+      videoList.map(async (video, index) => {
+        const videoThumbnail = await video
+          .$('img')
+          .then((img) => img?.getProperty('src'))
+          .then((src) => src?.jsonValue());
+        const videoUrl = await video
+          .$('a')
+          .then((a) => a?.getProperty('href'))
+          .then((href) => href?.jsonValue())
+          .then((href) => href?.split('?')[0]);
+
+        if (videoThumbnail === undefined || videoUrl === undefined) return;
+
+        return {
+          index,
+          videoThumbnail,
+          videoUrl,
+        };
+      }),
+    ).then((videos) =>
+      videos.filter((video): video is Video => video !== undefined),
+    );
+
+    return [videos, date];
+  }
+}

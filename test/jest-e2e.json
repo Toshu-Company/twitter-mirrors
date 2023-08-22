@@ -22,6 +22,8 @@
     "@twitter/uraaka-joshi.com/(.*)": "<rootDir>/../libs/uraaka-joshi.com/src/$1",
     "@twitter/uraaka-joshi.com": "<rootDir>/../libs/uraaka-joshi.com/src",
     "@app/axios/(.*)": "<rootDir>/../libs/axios/src/$1",
-    "@app/axios": "<rootDir>/../libs/axios/src"
+    "@app/axios": "<rootDir>/../libs/axios/src",
+    "@twitter/twidouga.net/(.*)": "<rootDir>/../libs/twidouga.net/src/$1",
+    "@twitter/twidouga.net": "<rootDir>/../libs/twidouga.net/src"
   }
 }

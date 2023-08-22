@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2016",
+    "target": "es2017",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "commonjs",
@@ -40,6 +40,12 @@
       ],
       "@app/axios/*": [
         "libs/axios/src/*"
+      ],
+      "@twitter/twidouga.net": [
+        "libs/twidouga.net/src"
+      ],
+      "@twitter/twidouga.net/*": [
+        "libs/twidouga.net/src/*"
       ]
     }
   }

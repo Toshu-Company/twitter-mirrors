@@ -11,6 +11,7 @@ import { DatabaseModule } from './database.module';
 import { TwiVideosModule } from './twi-videos/twi-videos.module';
 import { TwivideoModule } from './twivideo/twivideo.module';
 import { UraakalistModule } from './uraakalist/uraakalist.module';
+import { TwidougaModule } from './twidouga/twidouga.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { UraakalistModule } from './uraakalist/uraakalist.module';
     TwiVideosModule,
     TwivideoModule,
     UraakalistModule,
+    TwidougaModule,
     // DatabaseModule,
   ],
   controllers: [],
