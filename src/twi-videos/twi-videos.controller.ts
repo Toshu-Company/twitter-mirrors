@@ -5,12 +5,14 @@ import {
   Param,
   Query,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { TwiVideosNetService } from '@twitter/twi-videos.net';
 import { SearchResult } from '@twitter/twi-videos.net/vo/SearchResult.vo';
 import { VideoDetail } from '@twitter/twi-videos.net/vo/VideoDetail.vo';
 import { VideoInfo } from '@twitter/twi-videos.net/vo/VideoInfo.vo';
 
 @Controller('twi-videos')
+@ApiTags('twi-videos.net')
 export class TwiVideosController {
   constructor(private readonly twiVideosNetService: TwiVideosNetService) {}
 

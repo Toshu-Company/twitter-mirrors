@@ -16,6 +16,12 @@
       ],
       "@twitter/twi-videos.net/*": [
         "libs/twi-videos.net/src/*"
+      ],
+      "@twitter/twivideo.net": [
+        "libs/twivideo.net/src"
+      ],
+      "@twitter/twivideo.net/*": [
+        "libs/twivideo.net/src/*"
       ]
     }
   }

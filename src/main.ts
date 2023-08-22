@@ -6,6 +6,7 @@ import { AppModule } from './app.module';
 import { swagger } from './swagger';
 import { NextFunction, Request, Response } from 'express';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import path from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -56,6 +57,10 @@ async function bootstrap() {
   if (config.get<boolean>('SWAGGER_ENABLED', NODE_ENV === 'development')) {
     await swagger(app);
   }
+
+  app.useStaticAssets(path.join(__dirname, '..', 'public'));
+  app.setBaseViewsDir(path.join(__dirname, '..', 'views'));
+  app.setViewEngine('ejs');
 
   await app.listen(servicePort);
 

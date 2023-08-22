@@ -9,6 +9,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import ms from 'ms';
 import { DatabaseModule } from './database.module';
 import { TwiVideosModule } from './twi-videos/twi-videos.module';
+import { TwivideoModule } from './twivideo/twivideo.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { TwiVideosModule } from './twi-videos/twi-videos.module';
       max: 100,
     }),
     TwiVideosModule,
+    TwivideoModule,
     // DatabaseModule,
   ],
   controllers: [],

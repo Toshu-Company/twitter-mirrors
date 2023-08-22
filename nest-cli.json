@@ -18,6 +18,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/twi-videos.net/tsconfig.lib.json"
       }
+    },
+    "twivideo.net": {
+      "type": "library",
+      "root": "libs/twivideo.net",
+      "entryFile": "index",
+      "sourceRoot": "libs/twivideo.net/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/twivideo.net/tsconfig.lib.json"
+      }
     }
   }
 }
