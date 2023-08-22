@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "assets": [
+      "**/*.proto"
+    ],
+    "watchAssets": true,
+    "webpack": true
+  },
+  "projects": {
+    "twi-videos.net": {
+      "type": "library",
+      "root": "libs/twi-videos.net",
+      "entryFile": "index",
+      "sourceRoot": "libs/twi-videos.net/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/twi-videos.net/tsconfig.lib.json"
+      }
+    }
+  }
+}
