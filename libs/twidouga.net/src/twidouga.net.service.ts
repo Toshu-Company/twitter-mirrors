@@ -36,7 +36,11 @@ export class TwidougaNetService {
         }),
       )
       .launch({
-        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--proxy-server=socks5h://warproxy:1080',
+        ],
         headless: 'new',
       })
       .then((browser) => {
@@ -53,16 +57,18 @@ export class TwidougaNetService {
       'Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20100101 Firefox/5.0',
     );
 
-    await useProxy(page, 'socks5h://warproxy:1080');
+    // await useProxy(page, 'socks5h://warproxy:1080');
 
-    await page.goto(
-      {
-        ko: 'https://www.twidouga.net/ko/realtime_t.php',
-        ja: 'https://www.twidouga.net/realtime_t.php',
-      }[language],
-    );
+    // await page.goto(
+    //   {
+    //     ko: 'https://www.twidouga.net/ko/realtime_t.php',
+    //     ja: 'https://www.twidouga.net/realtime_t.php',
+    //   }[language],
+    // );
 
-    await new Promise((r) => setTimeout(r, 30 * 1000));
+    // await new Promise((r) => setTimeout(r, 30 * 1000));
+
+    await page.goto('https://bot.sannysoft.com/');
 
     // const [videos, date] = await this.parseTwidougaPage(page);
 
