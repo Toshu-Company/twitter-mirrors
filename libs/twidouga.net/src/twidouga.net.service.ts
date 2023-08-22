@@ -68,7 +68,7 @@ export class TwidougaNetService {
       encoding: 'base64',
     });
 
-    await page.close();
+    // await page.close();
 
     return await page.content();
     // return { videos, date, screenshot };
