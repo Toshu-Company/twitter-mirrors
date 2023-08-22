@@ -18,6 +18,10 @@
     "@twitter/twivideo.net/(.*)": "<rootDir>/../libs/twivideo.net/src/$1",
     "@twitter/twivideo.net": "<rootDir>/../libs/twivideo.net/src",
     "@twitter/uraakalist.com/(.*)": "<rootDir>/../libs/uraakalist.com/src/$1",
-    "@twitter/uraakalist.com": "<rootDir>/../libs/uraakalist.com/src"
+    "@twitter/uraakalist.com": "<rootDir>/../libs/uraakalist.com/src",
+    "@twitter/uraaka-joshi.com/(.*)": "<rootDir>/../libs/uraaka-joshi.com/src/$1",
+    "@twitter/uraaka-joshi.com": "<rootDir>/../libs/uraaka-joshi.com/src",
+    "@app/axios/(.*)": "<rootDir>/../libs/axios/src/$1",
+    "@app/axios": "<rootDir>/../libs/axios/src"
   }
 }

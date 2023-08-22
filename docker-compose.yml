@@ -1,6 +1,13 @@
 version: '2.0'
 
 services:
+  warproxy:
+    image: ghcr.io/kingcc/warproxy:latest
+    restart: always
+    environment:
+      - WARP_PLUS=true
+    expose:
+      - 1080
   server:
     build:
       context: .

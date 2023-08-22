@@ -28,6 +28,18 @@
       ],
       "@twitter/uraakalist.com/*": [
         "libs/uraakalist.com/src/*"
+      ],
+      "@twitter/uraaka-joshi.com": [
+        "libs/uraaka-joshi.com/src"
+      ],
+      "@twitter/uraaka-joshi.com/*": [
+        "libs/uraaka-joshi.com/src/*"
+      ],
+      "@app/axios": [
+        "libs/axios/src"
+      ],
+      "@app/axios/*": [
+        "libs/axios/src/*"
       ]
     }
   }

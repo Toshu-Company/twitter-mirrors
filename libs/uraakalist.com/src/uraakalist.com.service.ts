@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { Result, TweetDetail } from './vo';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class UraakalistComService {
+  constructor(private readonly httpService: HttpService) {}
+
   private parseSearchResult($: cheerio.CheerioAPI): Result {
     const tweets: Result['tweets'] = [];
     $('div.tweet_list > article.tweet').each((i, el) => {
@@ -109,7 +111,7 @@ export class UraakalistComService {
     const url = `https://uraakalist.com/${type ? type + '/' : ''}${
       image ? 'image/' : ''
     }p/${page}`;
-    return await axios
+    return await this.httpService.axiosRef
       .get(url)
       .then((res) => cheerio.load(res.data))
       .then(this.parseSearchResult);
@@ -144,14 +146,14 @@ export class UraakalistComService {
   }
 
   async detail(id: string): Promise<TweetDetail> {
-    return await axios
+    return await this.httpService.axiosRef
       .get(`https://uraakalist.com/tweet/${id}`)
       .then((res) => cheerio.load(res.data))
       .then(this.parseTweetDetailResult);
   }
 
   async keywords(): Promise<Result> {
-    return await axios
+    return await this.httpService.axiosRef
       .get(`https://uraakalist.com/tag`)
       .then((res) => cheerio.load(res.data))
       .then(this.parseKeywordsResult);
@@ -161,7 +163,7 @@ export class UraakalistComService {
     page = 1,
     type: 'pickup' | 'amateur' | 'hamedori' | 'cosplayer' /*| 'trance'*/,
   ): Promise<Result> {
-    return await axios
+    return await this.httpService.axiosRef
       .get(`https://uraakalist.com/users/${type ? type + '/' : ''}p/${page}`)
       .then((res) => cheerio.load(res.data))
       .then(this.parseUsersResult);

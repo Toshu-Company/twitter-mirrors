@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
-import axios from 'axios';
 import * as cheerio from 'cheerio';
 import { SearchResult, SearchResultVideo } from './vo/SearchResult.vo';
 import { VideoInfo } from './vo/VideoInfo.vo';
 import { VideoDetail } from './vo/VideoDetail.vo';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class TwiVideosNetService {
+  constructor(private readonly httpService: HttpService) {}
+
   private async parseSearchResult(
     $: cheerio.CheerioAPI,
   ): Promise<SearchResult> {
@@ -31,21 +33,21 @@ export class TwiVideosNetService {
   }
 
   async recent4(): Promise<SearchResult> {
-    return await axios
+    return await this.httpService.axiosRef
       .get('https://www.twi-videos.net/')
       .then((res) => cheerio.load(res.data))
       .then(this.parseSearchResult);
   }
 
   async index(page: number): Promise<SearchResult> {
-    return await axios
+    return await this.httpService.axiosRef
       .get(`https://www.twi-videos.net/hozon.php?p=${page}`)
       .then((res) => cheerio.load(res.data))
       .then(this.parseSearchResult);
   }
 
   async randomId(): Promise<string | undefined> {
-    return await axios
+    return await this.httpService.axiosRef
       .get('https://www.twi-videos.net/')
       .then((res) => cheerio.load(res.data))
       .then(($) => {
@@ -60,21 +62,21 @@ export class TwiVideosNetService {
   }
 
   async search(query: string, page: number): Promise<SearchResult> {
-    return await axios
+    return await this.httpService.axiosRef
       .get(`https://www.twi-videos.net/r.php?k=${query}&p=${page}`)
       .then((res) => cheerio.load(res.data))
       .then(this.parseSearchResult);
   }
 
   async searchByUser(id: string, page: number): Promise<SearchResult> {
-    return await axios
+    return await this.httpService.axiosRef
       .get(`https://www.twi-videos.net/r3.php?k=${id}&p=${page}`)
       .then((res) => cheerio.load(res.data))
       .then(this.parseSearchResult);
   }
 
   async getVideoInfo(id: string): Promise<VideoInfo> {
-    return await axios
+    return await this.httpService.axiosRef
       .get(`https://www.twi-videos.net/v.php?video=${id}`)
       .then((res) => cheerio.load(res.data))
       .then(($) => {
@@ -116,7 +118,7 @@ export class TwiVideosNetService {
   }
 
   async getVideoDetail(id: string): Promise<VideoDetail> {
-    return axios
+    return this.httpService.axiosRef
       .get(`https://www.twi-videos.net/j/${id}.json`)
       .then((res) => res.data);
   }
