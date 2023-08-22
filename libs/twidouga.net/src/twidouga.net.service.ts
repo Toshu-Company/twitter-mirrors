@@ -58,6 +58,8 @@ export class TwidougaNetService {
       }[language],
     );
 
+    await page.waitForSelector('div#container > div.item:not(#pakuri)');
+
     const [videos, date] = await this.parseTwidougaPage(page);
 
     const screenshot = await page.screenshot({
