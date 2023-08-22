@@ -8,8 +8,8 @@ export class AxiosService implements HttpModuleOptionsFactory {
     return {
       timeout: 5000,
       maxRedirects: 5,
-      // httpAgent: new SocksProxyAgent('socks5h://warproxy:1080'),
-      // httpsAgent: new SocksProxyAgent('socks5h://warproxy:1080'),
+      httpAgent: new SocksProxyAgent('socks5h://warproxy:1080'),
+      httpsAgent: new SocksProxyAgent('socks5h://warproxy:1080'),
     };
   }
 }
