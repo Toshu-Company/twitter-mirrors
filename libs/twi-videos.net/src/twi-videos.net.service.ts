@@ -14,7 +14,9 @@ export class TwiVideosNetService {
   ): Promise<SearchResult> {
     const count = parseInt(
       $('h3').text().trim().match(/\d+/)?.[0] ??
-        ($('p').text().trim().includes('~') ? '0' : $('p').text().trim()) ??
+        (/[^\d]/.test($('p').first().text().trim())
+          ? '0'
+          : $('p').first().text().trim()) ??
         '0',
     );
 
