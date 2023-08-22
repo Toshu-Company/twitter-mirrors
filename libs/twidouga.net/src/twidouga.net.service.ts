@@ -9,6 +9,8 @@ import AdblockerPlugin from 'puppeteer-extra-plugin-adblocker';
 import StealthPlugin from 'puppeteer-extra-plugin-stealth';
 import useProxy from 'puppeteer-page-proxy';
 
+puppeteer.use(StealthPlugin());
+
 export enum Language {
   Korean = 'ko',
   Japanese = 'ja',
@@ -26,14 +28,6 @@ export class TwidougaNetService {
 
   constructor() {
     puppeteer
-      .use(
-        AdblockerPlugin({
-          interceptResolutionPriority: DEFAULT_INTERCEPT_RESOLUTION_PRIORITY,
-          blockTrackers: true,
-          blockTrackersAndAnnoyances: true,
-          useCache: true,
-        }),
-      )
       .use(StealthPlugin())
       .launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
