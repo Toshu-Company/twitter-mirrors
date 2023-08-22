@@ -70,7 +70,7 @@ export class TwidougaNetService {
 
     await page.close();
 
-    return { screenshot };
+    return await page.content();
     // return { videos, date, screenshot };
   }
 
