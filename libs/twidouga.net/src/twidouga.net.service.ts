@@ -49,24 +49,16 @@ export class TwidougaNetService {
 
     const page = await this.browser.newPage();
 
-    await page.setUserAgent(
-      'Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20100101 Firefox/5.0',
-    );
-
     await useProxy(page, 'socks5h://warproxy:1080');
 
-    // await page.goto(
-    //   {
-    //     ko: 'https://www.twidouga.net/ko/realtime_t.php',
-    //     ja: 'https://www.twidouga.net/realtime_t.php',
-    //   }[language],
-    // );
+    await page.goto(
+      {
+        ko: 'https://www.twidouga.net/ko/realtime_t.php',
+        ja: 'https://www.twidouga.net/realtime_t.php',
+      }[language],
+    );
 
-    // await new Promise((r) => setTimeout(r, 30 * 1000));
-
-    await page.goto('https://bot.sannysoft.com/');
-
-    // const [videos, date] = await this.parseTwidougaPage(page);
+    const [videos, date] = await this.parseTwidougaPage(page);
 
     const screenshot = await page.screenshot({
       type: 'jpeg',
@@ -74,10 +66,9 @@ export class TwidougaNetService {
       encoding: 'base64',
     });
 
-    // await page.close();
+    await page.close();
 
-    return screenshot;
-    // return { videos, date, screenshot };
+    return { videos, date, screenshot };
   }
 
   private async autoScroll(page: Page) {
