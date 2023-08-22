@@ -60,7 +60,7 @@ export class TwidougaNetService {
 
     await new Promise((r) => setTimeout(r, 30 * 1000));
 
-    const [videos, date] = await this.parseTwidougaPage(page);
+    // const [videos, date] = await this.parseTwidougaPage(page);
 
     const screenshot = await page.screenshot({
       type: 'jpeg',
@@ -70,7 +70,8 @@ export class TwidougaNetService {
 
     await page.close();
 
-    return { videos, date, screenshot };
+    return { screenshot };
+    // return { videos, date, screenshot };
   }
 
   private async autoScroll(page: Page) {
