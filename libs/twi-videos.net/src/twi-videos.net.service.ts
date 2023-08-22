@@ -65,14 +65,26 @@ export class TwiVideosNetService {
     return await this.httpService.axiosRef
       .get(`https://www.twi-videos.net/r.php?k=${query}&p=${page}`)
       .then((res) => cheerio.load(res.data))
-      .then(this.parseSearchResult);
+      .then(this.parseSearchResult)
+      .then((result) => {
+        if (result.count <= (page - 1) * 30) {
+          return { videos: [], count: result.count };
+        }
+        return result;
+      });
   }
 
   async searchByUser(id: string, page: number): Promise<SearchResult> {
     return await this.httpService.axiosRef
       .get(`https://www.twi-videos.net/r3.php?k=${id}&p=${page}`)
       .then((res) => cheerio.load(res.data))
-      .then(this.parseSearchResult);
+      .then(this.parseSearchResult)
+      .then((result) => {
+        if (result.count <= (page - 1) * 30) {
+          return { videos: [], count: result.count };
+        }
+        return result;
+      });
   }
 
   async getVideoInfo(id: string): Promise<VideoInfo> {
