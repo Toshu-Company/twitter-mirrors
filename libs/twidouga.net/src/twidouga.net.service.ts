@@ -58,19 +58,28 @@ export class TwidougaNetService {
       }[language],
     );
 
-    await page.waitForSelector('div#container > div.item:not(#pakuri)');
+    try {
+      await page.waitForSelector('div#container > div.item:not(#pakuri)');
 
-    const [videos, date] = await this.parseTwidougaPage(page);
+      const [videos, date] = await this.parseTwidougaPage(page);
 
-    const screenshot = await page.screenshot({
-      type: 'jpeg',
-      quality: 50,
-      encoding: 'base64',
-    });
+      const screenshot = await page.screenshot({
+        type: 'jpeg',
+        quality: 50,
+        encoding: 'base64',
+      });
 
-    await page.close();
+      await page.close();
 
-    return { videos, date, screenshot };
+      return { videos, date, screenshot };
+    } catch (e) {
+      await page.close();
+      return await page.screenshot({
+        type: 'jpeg',
+        quality: 50,
+        encoding: 'base64',
+      });
+    }
   }
 
   private async autoScroll(page: Page) {
