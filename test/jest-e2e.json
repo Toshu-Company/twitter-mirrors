@@ -16,6 +16,8 @@
     "@twitter/twi-videos.net/(.*)": "<rootDir>/../libs/twi-videos.net/src/$1",
     "@twitter/twi-videos.net": "<rootDir>/../libs/twi-videos.net/src",
     "@twitter/twivideo.net/(.*)": "<rootDir>/../libs/twivideo.net/src/$1",
-    "@twitter/twivideo.net": "<rootDir>/../libs/twivideo.net/src"
+    "@twitter/twivideo.net": "<rootDir>/../libs/twivideo.net/src",
+    "@twitter/uraakalist.com/(.*)": "<rootDir>/../libs/uraakalist.com/src/$1",
+    "@twitter/uraakalist.com": "<rootDir>/../libs/uraakalist.com/src"
   }
 }

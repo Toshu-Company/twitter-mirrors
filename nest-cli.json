@@ -27,6 +27,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/twivideo.net/tsconfig.lib.json"
       }
+    },
+    "uraakalist.com": {
+      "type": "library",
+      "root": "libs/uraakalist.com",
+      "entryFile": "index",
+      "sourceRoot": "libs/uraakalist.com/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/uraakalist.com/tsconfig.lib.json"
+      }
     }
   }
 }

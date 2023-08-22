@@ -5,7 +5,7 @@ import {
   Param,
   Query,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { TwiVideosNetService } from '@twitter/twi-videos.net';
 import { SearchResult } from '@twitter/twi-videos.net/vo/SearchResult.vo';
 import { VideoDetail } from '@twitter/twi-videos.net/vo/VideoDetail.vo';
@@ -17,7 +17,8 @@ export class TwiVideosController {
   constructor(private readonly twiVideosNetService: TwiVideosNetService) {}
 
   @Get()
-  async index(@Query('page') page: number): Promise<SearchResult> {
+  @ApiQuery({ name: 'page', required: false })
+  async index(@Query('page') page = 1): Promise<SearchResult> {
     return await this.twiVideosNetService.index(page);
   }
 

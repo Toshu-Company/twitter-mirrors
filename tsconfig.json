@@ -22,6 +22,12 @@
       ],
       "@twitter/twivideo.net/*": [
         "libs/twivideo.net/src/*"
+      ],
+      "@twitter/uraakalist.com": [
+        "libs/uraakalist.com/src"
+      ],
+      "@twitter/uraakalist.com/*": [
+        "libs/uraakalist.com/src/*"
       ]
     }
   }
