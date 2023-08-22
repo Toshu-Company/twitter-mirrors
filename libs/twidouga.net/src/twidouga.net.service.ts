@@ -26,7 +26,6 @@ export class TwidougaNetService {
 
   constructor() {
     puppeteer
-      .use(StealthPlugin())
       .use(
         AdblockerPlugin({
           interceptResolutionPriority: DEFAULT_INTERCEPT_RESOLUTION_PRIORITY,
@@ -35,9 +34,10 @@ export class TwidougaNetService {
           useCache: true,
         }),
       )
+      .use(StealthPlugin())
       .launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
-        headless: false,
+        headless: 'new',
       })
       .then((browser) => {
         this.browser = browser;
