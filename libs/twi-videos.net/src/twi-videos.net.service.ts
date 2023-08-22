@@ -13,8 +13,8 @@ export class TwiVideosNetService {
     $: cheerio.CheerioAPI,
   ): Promise<SearchResult> {
     const count = parseInt(
-      $('h3').text().trim().match(/\d+/)?.[0] ||
-        ($('p').text().trim().includes('~') ? '0' : $('p').text().trim()) ||
+      $('h3').text().trim().match(/\d+/)?.[0] ??
+        ($('p').text().trim().includes('~') ? '0' : $('p').text().trim()) ??
         '0',
     );
 
