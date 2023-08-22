@@ -10,6 +10,7 @@ import ms from 'ms';
 import { DatabaseModule } from './database.module';
 import { TwiVideosModule } from './twi-videos/twi-videos.module';
 import { TwivideoModule } from './twivideo/twivideo.module';
+import { UraakalistModule } from './uraakalist/uraakalist.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { TwivideoModule } from './twivideo/twivideo.module';
     }),
     TwiVideosModule,
     TwivideoModule,
+    UraakalistModule,
     // DatabaseModule,
   ],
   controllers: [],

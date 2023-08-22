@@ -3,6 +3,28 @@ import * as cheerio from 'cheerio';
 import { Result, TweetDetail } from './vo';
 import { HttpService } from '@nestjs/axios';
 
+export enum HotRangeType {
+  DAY = '',
+  HALF_WEEK = 'halfweek/',
+  WEEK = 'week/',
+  MONTH = 'month/',
+}
+
+export enum RankingType {
+  VIDEO = 'video/',
+  IMAGE = 'image/',
+  USER = 'pv/',
+}
+
+export enum UserType {
+  NEW = '',
+  PICKUP = 'pickup/',
+  AMATEUR = 'amateur/',
+  HAMEDORI = 'hamedori/',
+  COSPLAYER = 'cosplayer/',
+  /* TRANCE = 'trance' */
+}
+
 @Injectable()
 export class UraakalistComService {
   constructor(private readonly httpService: HttpService) {}
@@ -133,16 +155,16 @@ export class UraakalistComService {
     return this.request(page, 'retweet');
   }
 
-  async hot(page = 1): Promise<Result> {
-    return this.request(page, 'hot');
+  async hot(range = HotRangeType.DAY, page = 1): Promise<Result> {
+    return this.request(page, `hot/${range}`);
   }
 
-  async ranking(page = 1): Promise<Result> {
-    return this.request(page, 'ranking');
+  async ranking(type = RankingType.VIDEO, page = 1): Promise<Result> {
+    return this.request(page, `ranking/${type}`);
   }
 
-  async search(query: string, page = 1): Promise<Result> {
-    return this.request(page, `keyword/${query}`);
+  async search(query: string, image = false, page = 1): Promise<Result> {
+    return this.request(page, `keyword/${query}`, image);
   }
 
   async detail(id: string): Promise<TweetDetail> {
@@ -159,12 +181,9 @@ export class UraakalistComService {
       .then(this.parseKeywordsResult);
   }
 
-  async users(
-    page = 1,
-    type: 'pickup' | 'amateur' | 'hamedori' | 'cosplayer' /*| 'trance'*/,
-  ): Promise<Result> {
+  async users(type = UserType.NEW, page = 1): Promise<Result> {
     return await this.httpService.axiosRef
-      .get(`https://uraakalist.com/users/${type ? type + '/' : ''}p/${page}`)
+      .get(`https://uraakalist.com/list/${type}p/${page}`)
       .then((res) => cheerio.load(res.data))
       .then(this.parseUsersResult);
   }
