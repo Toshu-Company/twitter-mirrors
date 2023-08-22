@@ -12,7 +12,11 @@ export class TwiVideosNetService {
   private async parseSearchResult(
     $: cheerio.CheerioAPI,
   ): Promise<SearchResult> {
-    const count = parseInt($('h3').text().trim().match(/\d+/)?.[0] || '0');
+    const count = parseInt(
+      $('h3').text().trim().match(/\d+/)?.[0] ||
+        ($('p').text().trim().includes('~') ? '0' : $('p').text().trim()) ||
+        '0',
+    );
 
     const videos: SearchResultVideo[] = [];
     $('a:has(img)').each((i, el) => {
