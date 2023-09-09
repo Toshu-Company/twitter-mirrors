@@ -26,6 +26,8 @@
     "@twitter/twidouga.net/(.*)": "<rootDir>/../libs/twidouga.net/src/$1",
     "@twitter/twidouga.net": "<rootDir>/../libs/twidouga.net/src",
     "@twitter/yatv.net/(.*)": "<rootDir>/../libs/yatv.net/src/$1",
-    "@twitter/yatv.net": "<rootDir>/../libs/yatv.net/src"
+    "@twitter/yatv.net": "<rootDir>/../libs/yatv.net/src",
+    "@twitter/lover.net/(.*)": "<rootDir>/../libs/lover.net/src/$1",
+    "@twitter/lover.net": "<rootDir>/../libs/lover.net/src"
   }
 }

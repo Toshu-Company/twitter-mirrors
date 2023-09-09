@@ -12,6 +12,7 @@ import { TwiVideosModule } from './twi-videos/twi-videos.module';
 import { TwivideoModule } from './twivideo/twivideo.module';
 import { UraakalistModule } from './uraakalist/uraakalist.module';
 import { TwidougaModule } from './twidouga/twidouga.module';
+import { LoverModule } from './lover/lover.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { TwidougaModule } from './twidouga/twidouga.module';
     TwivideoModule,
     UraakalistModule,
     TwidougaModule,
+    LoverModule,
     // DatabaseModule,
   ],
   controllers: [],

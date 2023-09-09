@@ -72,6 +72,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/yatv.net/tsconfig.lib.json"
       }
+    },
+    "lover.net": {
+      "type": "library",
+      "root": "libs/lover.net",
+      "entryFile": "index",
+      "sourceRoot": "libs/lover.net/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/lover.net/tsconfig.lib.json"
+      }
     }
   }
 }

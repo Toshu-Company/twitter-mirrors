@@ -52,6 +52,12 @@
       ],
       "@twitter/yatv.net/*": [
         "libs/yatv.net/src/*"
+      ],
+      "@twitter/lover.net": [
+        "libs/lover.net/src"
+      ],
+      "@twitter/lover.net/*": [
+        "libs/lover.net/src/*"
       ]
     }
   }
