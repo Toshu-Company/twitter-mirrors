@@ -24,6 +24,8 @@
     "@app/axios/(.*)": "<rootDir>/../libs/axios/src/$1",
     "@app/axios": "<rootDir>/../libs/axios/src",
     "@twitter/twidouga.net/(.*)": "<rootDir>/../libs/twidouga.net/src/$1",
-    "@twitter/twidouga.net": "<rootDir>/../libs/twidouga.net/src"
+    "@twitter/twidouga.net": "<rootDir>/../libs/twidouga.net/src",
+    "@twitter/yatv.net/(.*)": "<rootDir>/../libs/yatv.net/src/$1",
+    "@twitter/yatv.net": "<rootDir>/../libs/yatv.net/src"
   }
 }

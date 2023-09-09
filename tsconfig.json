@@ -46,6 +46,12 @@
       ],
       "@twitter/twidouga.net/*": [
         "libs/twidouga.net/src/*"
+      ],
+      "@twitter/yatv.net": [
+        "libs/yatv.net/src"
+      ],
+      "@twitter/yatv.net/*": [
+        "libs/yatv.net/src/*"
       ]
     }
   }

@@ -63,6 +63,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/twidouga.net/tsconfig.lib.json"
       }
+    },
+    "yatv.net": {
+      "type": "library",
+      "root": "libs/yatv.net",
+      "entryFile": "index",
+      "sourceRoot": "libs/yatv.net/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/yatv.net/tsconfig.lib.json"
+      }
     }
   }
 }
