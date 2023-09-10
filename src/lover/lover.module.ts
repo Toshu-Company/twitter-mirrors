@@ -9,4 +9,3 @@ import { LoverNetModule } from '@twitter/lover.net';
   providers: [LoverService],
 })
 export class LoverModule {}
-

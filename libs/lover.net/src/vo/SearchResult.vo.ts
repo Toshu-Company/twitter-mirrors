@@ -7,4 +7,3 @@ export interface SearchResultVideo {
   id: string;
   title: string;
 }
-
