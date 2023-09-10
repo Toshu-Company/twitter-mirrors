@@ -72,13 +72,22 @@ export class YatvNetService {
       })
       .then((res) => cheerio.load(res.data))
       .then(($) => $('iframe#movie').attr('src'))
-      .then(
-        (url) =>
-          url && {
-            url: url,
-            thumbnail: new URL(url).searchParams.get('img'),
-          },
+      .then((url) =>
+        url
+          ? {
+              url: url,
+              thumbnail: new URL(url).searchParams.get('img'),
+            }
+          : undefined,
       );
+
+    if (!url) return undefined;
+
+    const result = await this.httpService.axiosRef
+      .get(url.url)
+      .then((res) => res.data);
+
+    console.log(result);
 
     return url;
   }
