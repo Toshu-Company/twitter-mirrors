@@ -98,43 +98,46 @@ export class LoverNetService {
   }
 
   async getThumbnail(id: string) {
-    const video = (await this.getVideoInfo(id)).video;
-    const stream = new MemoryStream();
-    ffmpeg()
-      .input(video)
-      .seekInput(0)
-      // .keepDisplayAspectRatio()
-      // .size('320x240')
-      .videoFilter('scale=-1:240')
-      // .videoFilter(
-      //   'scale=if(gte(iw,ih),min(320,iw),-1):if(lt(iw,ih),min(240,ih),-1)',
-      // )
-      .outputOptions('-vframes 1')
-      .format('image2')
-      .pipe(stream);
-    return stream;
+    //   const video = (await this.getVideoInfo(id)).video;
+    //   const stream = new MemoryStream();
+    //   ffmpeg()
+    //     .input(video)
+    //     .seekInput(0)
+    //     // .keepDisplayAspectRatio()
+    //     // .size('320x240')
+    //     .videoFilter('scale=-1:240')
+    //     // .videoFilter(
+    //     //   'scale=if(gte(iw,ih),min(320,iw),-1):if(lt(iw,ih),min(240,ih),-1)',
+    //     // )
+    //     .outputOptions('-vframes 1')
+    //     .format('image2')
+    //     .pipe(stream);
+    //   return stream;
+    // }
+    return new Promise<fs.ReadStream>(async (resolve, reject) => {
+      const video = (await this.getVideoInfo(id)).video;
+      const filename = path.join('tmp', `${id}.jpg`);
+      if (!fs.existsSync('tmp')) {
+        fs.mkdirSync('tmp');
+      }
+      if (fs.existsSync(filename)) {
+        return fs.createReadStream(filename);
+      }
+      ffmpeg()
+        .input(video)
+        .seekInput(0)
+        .videoFilter('scale=-1:240')
+        .outputOptions('-vframes 1')
+        .format('image2')
+        .pipe(
+          fs
+            .createWriteStream(filename, {
+              encoding: 'binary',
+            })
+            .on('finish', () => {
+              resolve(fs.createReadStream(filename));
+            }),
+        );
+    });
   }
-  //   return new Promise<fs.ReadStream>(async (resolve, reject) => {
-  //     const video = (await this.getVideoInfo(id)).video;
-  //     const filename = path.join('tmp', `${id}.jpg`);
-  //     if (!fs.existsSync('tmp')) {
-  //       fs.mkdirSync('tmp');
-  //     }
-  //     ffmpeg()
-  //       .input(video)
-  //       .seekInput(0)
-  //       .size('320x240')
-  //       .outputOptions('-vframes 1')
-  //       .format('image2')
-  //       .pipe(
-  //         fs
-  //           .createWriteStream(filename, {
-  //             encoding: 'binary',
-  //           })
-  //           .on('finish', () => {
-  //             resolve(fs.createReadStream(filename));
-  //           }),
-  //       );
-  //   });
-  // }
 }
