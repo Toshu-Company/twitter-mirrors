@@ -1,6 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import * as cheerio from 'cheerio';
+import * as vm from 'vm';
 import { Result } from './vo';
 
 @Injectable()
@@ -83,12 +84,26 @@ export class YatvNetService {
 
     if (!url) return undefined;
 
+    console.log(url);
+
     const result = await this.httpService.axiosRef
-      .get(url.url)
-      .then((res) => res.data);
+      .get(url.url, {
+        headers: {
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36',
+          Referer: 'https://yatv.net/',
+        },
+      })
+      .then((res) => cheerio.load(res.data))
+      .then(($) => $('script:not([src])').text())
+      .then((script) =>
+        vm.runInNewContext(script, { play: (a: any, b: any, c: any) => c }),
+      );
 
-    console.log(result);
-
-    return url;
+    return {
+      video: result,
+      thumbnail: url.thumbnail,
+      message: 'Referer header must be set to "https://hellocdn1.net/".',
+    };
   }
 }
