@@ -13,6 +13,7 @@ import { TwivideoModule } from './twivideo/twivideo.module';
 import { UraakalistModule } from './uraakalist/uraakalist.module';
 import { TwidougaModule } from './twidouga/twidouga.module';
 import { LoverModule } from './lover/lover.module';
+import { YatvModule } from './yatv/yatv.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { LoverModule } from './lover/lover.module';
     UraakalistModule,
     TwidougaModule,
     LoverModule,
+    YatvModule,
     // DatabaseModule,
   ],
   controllers: [],

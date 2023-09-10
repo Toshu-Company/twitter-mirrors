@@ -5,7 +5,20 @@ import { Result } from './vo';
 
 @Injectable()
 export class YatvNetService {
-  constructor(private readonly httpService: HttpService) {}
+  cookie: string[] | undefined = undefined;
+
+  constructor(private readonly httpService: HttpService) {
+    (async () => {
+      const res = await this.httpService.axiosRef.get('https://yatv.net/', {
+        headers: {
+          'User-Agent':
+            'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) ' +
+            'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36',
+        },
+      });
+      this.cookie = res.headers['set-cookie'];
+    })();
+  }
 
   parseSearchResult($: cheerio.CheerioAPI): Result[] {
     const videos: Result[] = [];
@@ -30,9 +43,43 @@ export class YatvNetService {
     return videos;
   }
 
-  index(page = 1) {
-    const result = this.httpService.get(
-      `https://yatv.net/%ED%95%9C%EA%B5%AD%EC%95%BC%EB%8F%99/%EC%95%BC%EB%8F%99%EB%AA%A9%EB%A1%9D-${page}`,
-    );
+  async index(page = 1) {
+    const result = await this.httpService.axiosRef
+      .get(
+        `https://yatv.net/%ED%95%9C%EA%B5%AD%EC%95%BC%EB%8F%99/%EC%95%BC%EB%8F%99%EB%AA%A9%EB%A1%9D-${page}`,
+        {
+          headers: {
+            'User-Agent':
+              'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36',
+            Referer: `https://yatv.net/%ED%95%9C%EA%B5%AD%EC%95%BC%EB%8F%99/%EC%95%BC%EB%8F%99%EB%AA%A9%EB%A1%9D-${page}`,
+          },
+        },
+      )
+      .then((res) => cheerio.load(res.data))
+      .then(this.parseSearchResult);
+
+    return result;
+  }
+
+  async detail(path: string) {
+    const url = await this.httpService.axiosRef
+      .get(`https://yatv.net/${path}`, {
+        headers: {
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Safari/537.36',
+          Referer: `https://yatv.net/${path}`,
+        },
+      })
+      .then((res) => cheerio.load(res.data))
+      .then(($) => $('iframe#movie').attr('src'))
+      .then(
+        (url) =>
+          url && {
+            url: url,
+            thumbnail: new URL(url).searchParams.get('img'),
+          },
+      );
+
+    return url;
   }
 }
