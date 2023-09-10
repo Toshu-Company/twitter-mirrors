@@ -3,6 +3,9 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as cheerio from 'cheerio';
 import { Category, VideoInfo } from './vo/VideoInfo.vo';
 import { SearchResult, SearchResultVideo } from './vo/SearchResult.vo';
+import * as vm from 'vm';
+
+export const HOST = 'https://lover922.net';
 
 @Injectable()
 export class LoverNetService {
@@ -49,19 +52,32 @@ export class LoverNetService {
     return await this.httpService.axiosRef
       .get(`https://lover922.net/index.php?document_srl=${id}`)
       .then((res) => cheerio.load(res.data))
-      .then(($) => {
-        const $scripts = $('script');
-        const $videoUrl = [...$scripts].find((x) =>
+      .then(async ($) => {
+        const _video_origin = [...$('script[src]')].find((x) =>
           x.attribs.src?.startsWith('/2'),
         )?.attribs.src;
+        const _video_content = $(
+          [...$('script:not([src])')].find((x) =>
+            $(x).text().trim().startsWith('var u'),
+          ),
+        ).text();
 
-        if (!$videoUrl) {
+        let vid = undefined;
+
+        if (_video_origin) {
+          vid = await this.httpService.axiosRef
+            .get(`${HOST}/${_video_origin}`)
+            .then((res) =>
+              vm.runInNewContext(res.data.replace('var ', ''), {}),
+            );
+        } else if (_video_content) {
+          vid = vm.runInNewContext(_video_content.replace('var ', ''), {});
+        }
+        if (!vid) {
           throw new HttpException('Not Found', HttpStatus.NOT_FOUND);
         }
 
-        const $url = `https://tistpry.com${
-          $videoUrl.split('.js')[0]
-        }/master7.m3u8`;
+        const $url = `https://tistpry.com/${vid}/master7.m3u8`;
         const $category = $('div.read_header h1 a:nth-child(1)').text();
         const $title = $('div.read_header h1 a:nth-child(2)')
           .text()
