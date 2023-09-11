@@ -1,4 +1,11 @@
-import { Controller, Get, Query, Res, StreamableFile } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Query,
+  Res,
+  StreamableFile,
+} from '@nestjs/common';
 import {
   ApiTags,
   ApiQuery,
@@ -40,5 +47,21 @@ export class LoverController {
   async getVideoStream(@Query('id') id: string, @Res() res: Response) {
     res.setHeader('Content-Type', 'image/jpeg');
     (await this.loverNetService.getThumbnail(id)).pipe(res);
+  }
+
+  @Get('/:year/:month/:day/:id/:path')
+  async mirrorVideoStream(
+    @Param('year') year: string,
+    @Param('month') month: string,
+    @Param('day') day: string,
+    @Param('id') id: string,
+    @Param('path') path: string,
+    @Res() res: Response,
+  ) {
+    const stream = await this.loverNetService.mirrorVideoStream(
+      `${year}/${month}/${day}/${id}/${path}`,
+    );
+    res.setHeader('Content-Type', stream.headers['content-type']);
+    stream.data.pipe(res);
   }
 }

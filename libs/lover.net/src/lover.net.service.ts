@@ -8,6 +8,7 @@ import ffmpeg from 'fluent-ffmpeg';
 import fs from 'fs';
 import path from 'path';
 import MemoryStream from 'memorystream';
+import { Readable } from 'stream';
 
 export const HOST = 'https://lover922.net';
 
@@ -139,5 +140,15 @@ export class LoverNetService {
             }),
         );
     });
+  }
+
+  async mirrorVideoStream(path: string) {
+    const stream = await this.httpService.axiosRef.get<Readable>(
+      `https://tistpry.com/${path}`,
+      {
+        responseType: 'stream',
+      },
+    );
+    return stream;
   }
 }
