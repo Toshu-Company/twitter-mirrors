@@ -87,8 +87,8 @@ export class LoverNetService {
         const $category = $('div.read_header h1 a:nth-child(1)').text();
         const $title = $('div.read_header h1 a:nth-child(2)')
           .text()
-          .split('[')[1]
-          .split(']')[1];
+          .replace(/\[.*\]/, '')
+          .trim();
 
         return {
           id,
