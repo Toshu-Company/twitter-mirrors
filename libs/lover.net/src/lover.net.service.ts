@@ -19,16 +19,17 @@ export class LoverNetService {
   private async parseSearchResult(
     $: cheerio.CheerioAPI,
   ): Promise<SearchResult> {
-    const noticeId = ['34415', '32000'];
-
     const videos: SearchResultVideo[] = [];
-    $('.title a').each((i, el) => {
+    $('tr:not(.notice) .title a').each((i, el) => {
       const $el = $(el);
       const video = {
         id: $el.attr('href')?.match(/document_srl=(\d+)/)?.[1],
-        title: $el.text()?.split('[')[1]?.split(']')[1],
+        title: $el
+          .text()
+          .replace(/\[.*\]/, '')
+          .trim(),
       };
-      if (video.id && !noticeId.includes(video.id)) {
+      if (video.id) {
         videos.push(video as SearchResultVideo);
       }
     });
