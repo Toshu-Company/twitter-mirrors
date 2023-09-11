@@ -1,19 +1,5 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Query,
-  Res,
-  StreamableFile,
-} from '@nestjs/common';
-import {
-  ApiTags,
-  ApiQuery,
-  ApiHeader,
-  ApiHeaders,
-  ApiExtension,
-  ApiProduces,
-} from '@nestjs/swagger';
+import { Controller, Get, Param, Query, Res } from '@nestjs/common';
+import { ApiTags, ApiQuery, ApiProduces } from '@nestjs/swagger';
 import { LoverNetService } from '@twitter/lover.net/lover.net.service';
 import { SearchResult } from '@twitter/lover.net/vo/SearchResult.vo';
 import { VideoInfo } from '@twitter/lover.net/vo/VideoInfo.vo';
@@ -62,6 +48,7 @@ export class LoverController {
       `${year}/${month}/${day}/${id}/${path}`,
     );
     res.setHeader('Content-Type', stream.headers['content-type']);
+    res.setHeader('Cache-Control', 'public, max-age=31536000');
     stream.data.pipe(res);
   }
 }
