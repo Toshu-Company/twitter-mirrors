@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 import * as cheerio from 'cheerio';
 import * as vm from 'vm';
 import { Result } from './vo';
+import { Readable } from 'stream';
 
 @Injectable()
 export class YatvNetService {
@@ -105,5 +106,15 @@ export class YatvNetService {
       thumbnail: url.thumbnail,
       message: 'Referer header must be set to "https://hellocdn1.net/".',
     };
+  }
+
+  async mirror(url: string) {
+    const stream = await this.httpService.axiosRef.get<Readable>(url, {
+      headers: {
+        Referer: 'https://hellocdn1.net/',
+      },
+      responseType: 'stream',
+    });
+    return stream;
   }
 }
