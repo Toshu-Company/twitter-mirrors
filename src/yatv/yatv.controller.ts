@@ -3,6 +3,7 @@ import { ApiQuery } from '@nestjs/swagger';
 import { YatvNetService } from '@twitter/yatv.net';
 import { MirrorDto } from './dto/mirror.dto';
 import { Response } from 'express';
+import { DetailDto } from './dto/detail.dto';
 
 @Controller('yatv')
 export class YatvController {
@@ -14,10 +15,9 @@ export class YatvController {
     return await this.yatvNetService.index(page);
   }
 
-  @Get('detail')
-  @ApiQuery({ name: 'url', required: true })
-  async getVideoInfo(@Query('url') url: string) {
-    return await this.yatvNetService.detail(url);
+  @Post('detail')
+  async getVideoInfo(@Body() body: DetailDto) {
+    return await this.yatvNetService.detail(body.url);
   }
 
   @Post('mirror')
