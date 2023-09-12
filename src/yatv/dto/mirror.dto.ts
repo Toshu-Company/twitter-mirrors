@@ -6,4 +6,10 @@ export class MirrorDto {
     type: String,
   })
   url!: string;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  ['content-type']?: string;
 }

@@ -20,10 +20,24 @@ export class YatvController {
     return await this.yatvNetService.detail(body.url);
   }
 
+  @Get('mirror')
+  @ApiQuery({ name: 'url', required: true })
+  async mirrorGet(@Query('url') encoded: string, @Res() res: Response) {
+    const url = Buffer.from(encoded, 'base64').toString();
+    const stream = await this.yatvNetService.mirror(url);
+    res.setHeader('Content-Type', stream.headers['content-type']);
+    res.setHeader('Cache-Control', 'public, max-age=31536000');
+    stream.data.pipe(res);
+  }
+
   @Post('mirror')
   async mirror(@Body() body: MirrorDto, @Res() res: Response) {
     const stream = await this.yatvNetService.mirror(body.url);
-    res.setHeader('Content-Type', stream.headers['content-type']);
+    if (body['content-type']) {
+      res.setHeader('Content-Type', body['content-type']);
+    } else {
+      res.setHeader('Content-Type', stream.headers['content-type']);
+    }
     res.setHeader('Cache-Control', 'public, max-age=31536000');
     stream.data.pipe(res);
   }
