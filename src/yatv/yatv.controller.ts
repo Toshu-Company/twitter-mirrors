@@ -4,6 +4,7 @@ import { YatvNetService } from '@twitter/yatv.net';
 import { MirrorDto } from './dto/mirror.dto';
 import { Response } from 'express';
 import { DetailDto } from './dto/detail.dto';
+import { NoCache } from 'src/decorators/cache.decorator';
 
 @Controller('yatv')
 export class YatvController {
@@ -21,6 +22,7 @@ export class YatvController {
   }
 
   @Get('mirror')
+  @NoCache()
   @ApiQuery({ name: 'url', required: true })
   @ApiQuery({ name: 'content-type', required: false })
   async mirrorGet(
