@@ -1,5 +1,4 @@
 import {
-  CacheInterceptor,
   CacheModule,
   ClassSerializerInterceptor,
   Module,
@@ -14,6 +13,7 @@ import { UraakalistModule } from './uraakalist/uraakalist.module';
 import { TwidougaModule } from './twidouga/twidouga.module';
 import { LoverModule } from './lover/lover.module';
 import { YatvModule } from './yatv/yatv.module';
+import { CacheInterceptor } from './intercepters/cache.intercepter';
 
 @Module({
   imports: [

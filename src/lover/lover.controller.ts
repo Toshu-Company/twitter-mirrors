@@ -4,6 +4,7 @@ import { LoverNetService } from '@twitter/lover.net/lover.net.service';
 import { SearchResult } from '@twitter/lover.net/vo/SearchResult.vo';
 import { VideoInfo } from '@twitter/lover.net/vo/VideoInfo.vo';
 import { Response } from 'express';
+import { NoCache } from 'src/decorators/cache.decorator';
 
 @Controller('lover')
 @ApiTags('lover.net')
@@ -36,6 +37,7 @@ export class LoverController {
   }
 
   @Get('/:year/:month/:day/:id/:path')
+  @NoCache()
   async mirrorVideoStream(
     @Param('year') year: string,
     @Param('month') month: string,
