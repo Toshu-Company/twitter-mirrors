@@ -1,4 +1,5 @@
 import {
+  CacheTTL,
   Controller,
   Get,
   NotFoundException,
@@ -10,6 +11,7 @@ import { TwiVideosNetService } from '@twitter/twi-videos.net';
 import { SearchResult } from '@twitter/twi-videos.net/vo/SearchResult.vo';
 import { VideoDetail } from '@twitter/twi-videos.net/vo/VideoDetail.vo';
 import { VideoInfo } from '@twitter/twi-videos.net/vo/VideoInfo.vo';
+import ms from 'ms';
 
 @Controller('twi-videos')
 @ApiTags('twi-videos.net')
@@ -51,11 +53,13 @@ export class TwiVideosController {
   }
 
   @Get(':id')
+  @CacheTTL(ms('1d'))
   async getVideoInfo(@Param('id') id: string): Promise<VideoInfo> {
     return await this.twiVideosNetService.getVideoInfo(id);
   }
 
   @Get(':id/detail')
+  @CacheTTL(ms('1d'))
   async getVideoDetail(@Param('id') id: string): Promise<VideoDetail> {
     return await this.twiVideosNetService.getVideoDetail(id);
   }
