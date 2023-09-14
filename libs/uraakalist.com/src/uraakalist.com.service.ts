@@ -103,11 +103,18 @@ export class UraakalistComService {
       content
         .find('.rect .player-wrap a')
         .attr('href')
-        ?.match(/\/content\/(.+)/)?.[1] ??
+        ?.match(/\/content\/(.+)/)?.[1]
+        .replace(/\/$/, '') ??
       content
         .find('.Breadcrumb .Breadcrumb-ListGroup-Item:nth-child(2) a')
         .attr('href')
-        ?.match(/\/content\/(.+)/)?.[1];
+        ?.match(/\/content\/(.+)/)?.[1]
+        .replace(/\/$/, '');
+    const username = content
+      .find('.Breadcrumb .Breadcrumb-ListGroup-Item:nth-child(2) a')
+      .text()
+      .split('@')[0]
+      .trim();
     const recommend = this.parseSearchResult(
       cheerio.load(content.find('.tweet_list').first().parent().html() ?? ''),
     );
@@ -120,6 +127,7 @@ export class UraakalistComService {
       video: video ?? '',
       image: image ?? '',
       user: user ?? '',
+      username: username ?? '',
       user_recommend: recommend.tweets,
       recommend: sameUser.tweets,
     };

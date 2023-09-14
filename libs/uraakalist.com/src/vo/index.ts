@@ -23,6 +23,7 @@ export interface TweetDetail {
   video: string;
   image: string;
   user: string;
+  username: string;
   user_recommend: SimpleTweet[];
   recommend: SimpleTweet[];
 }
