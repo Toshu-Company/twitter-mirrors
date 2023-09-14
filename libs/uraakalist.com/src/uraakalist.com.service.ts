@@ -136,7 +136,7 @@ export class UraakalistComService {
     return await this.httpService.axiosRef
       .get(url)
       .then((res) => cheerio.load(res.data))
-      .then(this.parseSearchResult);
+      .then(this.parseSearchResult.bind(this));
   }
 
   async new(page = 1): Promise<Result> {
@@ -171,20 +171,20 @@ export class UraakalistComService {
     return await this.httpService.axiosRef
       .get(`https://uraakalist.com/tweet/${id}`)
       .then((res) => cheerio.load(res.data))
-      .then(this.parseTweetDetailResult);
+      .then(this.parseTweetDetailResult.bind(this));
   }
 
   async keywords(): Promise<Result> {
     return await this.httpService.axiosRef
       .get(`https://uraakalist.com/tag`)
       .then((res) => cheerio.load(res.data))
-      .then(this.parseKeywordsResult);
+      .then(this.parseKeywordsResult.bind(this));
   }
 
   async users(type = UserType.NEW, page = 1): Promise<Result> {
     return await this.httpService.axiosRef
       .get(`https://uraakalist.com/list/${type}p/${page}`)
       .then((res) => cheerio.load(res.data))
-      .then(this.parseUsersResult);
+      .then(this.parseUsersResult.bind(this));
   }
 }
