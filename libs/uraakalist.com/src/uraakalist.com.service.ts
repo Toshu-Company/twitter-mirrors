@@ -109,10 +109,10 @@ export class UraakalistComService {
         .attr('href')
         ?.match(/\/content\/(.+)/)?.[1];
     const recommend = this.parseSearchResult(
-      cheerio.load(content.find('.tweet_list').first().html() ?? ''),
+      cheerio.load(content.find('.tweet_list').first().parent().html() ?? ''),
     );
     const sameUser = this.parseSearchResult(
-      cheerio.load(content.find('.tweet_list').last().html() ?? ''),
+      cheerio.load(content.find('.tweet_list').last().parent().html() ?? ''),
     );
 
     return {
