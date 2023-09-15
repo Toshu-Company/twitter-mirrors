@@ -49,7 +49,8 @@ export class LoverController {
     const stream = await this.loverNetService.mirrorVideoStream(
       `${year}/${month}/${day}/${id}/${path}`,
     );
-    res.setHeader('Content-Type', stream.headers['content-type']);
+    if (stream.headers['content-type'])
+      res.setHeader('Content-Type', stream.headers['content-type']);
     res.setHeader('Cache-Control', 'public, max-age=31536000');
     stream.data.pipe(res);
   }
