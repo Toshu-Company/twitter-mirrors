@@ -10,7 +10,7 @@ import path from 'path';
 import MemoryStream from 'memorystream';
 import { Readable } from 'stream';
 
-export const HOST = 'https://lover922.net';
+export const HOST = 'https://lover923.net';
 
 @Injectable()
 export class LoverNetService {
@@ -42,21 +42,21 @@ export class LoverNetService {
 
   async recent(): Promise<SearchResult> {
     return await this.httpService.axiosRef
-      .get(`https://lover922.net/index.php`)
+      .get(`${HOST}/index.php`)
       .then((res) => cheerio.load(res.data))
       .then(this.parseSearchResult);
   }
 
   async index(page: number): Promise<SearchResult> {
     return await this.httpService.axiosRef
-      .get(`https://lover922.net/index.php?page=${page}`)
+      .get(`${HOST}/index.php?page=${page}`)
       .then((res) => cheerio.load(res.data))
       .then(this.parseSearchResult);
   }
 
   async getVideoInfo(id: string) {
     return await this.httpService.axiosRef
-      .get(`https://lover922.net/index.php?document_srl=${id}`)
+      .get(`${HOST}/index.php?document_srl=${id}`)
       .then((res) => cheerio.load(res.data))
       .then(async ($) => {
         const _video_origin = [...$('script[src]')].find((x) =>
